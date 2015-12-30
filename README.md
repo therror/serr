@@ -1,0 +1,2 @@
+# serr
+Serialize Javascript Errors
