@@ -1,0 +1,41 @@
+{
+  "name": "serr",
+  "version": "0.0.0",
+  "description": "Serialize Javascript Errors",
+  "main": "lib/index.js",
+  "scripts": {
+    "travis": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec test/environment.js test/*.spec.js && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R dot test/environment.js test/*.spec.js",
+    "lint": "jscs lib && eslint lib",
+    "test": "mocha -R spec test/environment.js test/*.spec.js",
+    "prepublish": "npm run test && npm run lint"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/therror/serr.git"
+  },
+  "keywords": [
+    "Error",
+    "serialization",
+    "serialize"
+  ],
+  "author": "Telefonica I+D",
+  "contributors": [
+    "Javier Mendiara Cañardo <javier.mendiaracanardo@telefonica.com> (http://twitter.com/jmendiara)"
+  ],
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/therror/serr/issues"
+  },
+  "homepage": "https://github.com/therror/serr#readme",
+  "devDependencies": {
+    "chai": "^3.4.1",
+    "coveralls": "^2.11.6",
+    "eslint": "^1.10.3",
+    "istanbul": "^0.4.1",
+    "jscs": "^2.7.0",
+    "mocha": "^2.3.4",
+    "sinon": "^1.17.2",
+    "sinon-chai": "^2.8.0"
+  }
+}
