@@ -1,6 +1,54 @@
 # serr
-Serialize Javascript Errors
+Serialize node Errors to plain Javascript Objects
 
+## Install
+```sh
+npm install --save serr
+```
+
+## Usage
+```js
+var serializeError = require('serr');
+
+var obj = serializeError(new Error('Something went wrong'));
+// { 
+//   message: 'Something went wrong',
+//   name: 'Error',
+//   constructor: 'Error',
+//   stack: 'Error: Something went wrong\n    at repl:1:16\n    at REPLServer.defaultEval (repl.js:248:27)\n...'
+// }
+
+// stack traces are expensive to calculate... Don't add them.
+var obj = serializeError(new TypeError('ID is mandatory'), true);
+// { 
+//   message: 'ID is mandatory',
+//   name: 'TypeError', 
+//   constructor: 'TypeError'
+// }
+
+// ES2015 Classes Support for easy logging your custom ones
+class MyError extends Error {};
+let obj = serializeError(new MyError('Failed'));
+// { 
+//   message: 'Failed',
+//   name: 'Error', // <------ Warning! It's not MyError
+//   constructor: 'MyError',  // <----- Constructor name
+//   stack: 'Error: Failed\n    at MyError (repl:1:23)\n    at repl:1:26\n    at REPLServer.defaultEval (repl.js:248:27)\n...'
+// }
+
+// Custom enumerable properties
+var error = new Error('User Not Found');
+error.statusCode = 404;
+let obj = serializeError(error, true);
+// { 
+//   statusCode: 404,
+//   message: 'User Not Found',
+//   name: 'Error',
+//   constructor: 'Error'
+// }
+```
+
+If the error has a `cause()` method that returns another error, as defined by [verror](https://github.com/davepacheco/node-verror), [restify v2.0](https://github.com/mcavage/node-restify) or [therror v1.0](https://github.com/therror/therror), it will concatenate the the cause stacktrace to the main one.
 
 ## License
 
