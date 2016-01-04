@@ -28,9 +28,7 @@ describe('toString', function() {
     var err = new Error('foo');
     var obj = serializeError(err).toString(true);
 
-    expect(obj).to.be.eql('Error: foo' +
-        '\n' + err.stack
-    );
+    expect(obj).to.be.eql(err.stack);
   });
 
   describe('with cause', function() {
@@ -65,8 +63,7 @@ describe('toString', function() {
       err.cause = sandbox.stub().returns(err1);
       var obj = serializeError(err).toString(true);
 
-      expect(obj).to.be.eql('Error: foo: bar: baz' +
-        '\n' + err.stack +
+      expect(obj).to.be.eql(err.stack +
         '\nCaused by: ' + err1.stack +
         '\nCaused by: ' + err2
       );
