@@ -1,4 +1,10 @@
 # serr
+
+[![npm version](https://img.shields.io/npm/v/serr.svg)](http://badge.fury.io/js/serr)
+[![Build Status](https://img.shields.io/travis/therror/serr.svg)](https://travis-ci.org/therror/serr)
+[![Coveralls branch](https://img.shields.io/coveralls/therror/serr/master.svg)](https://coveralls.io/r/therror/serr?branch=master)
+[![Dependency Status](https://img.shields.io/gemnasium/therror/serr.svg)](https://gemnasium.com/therror/serr)
+
 Convert node Errors to several flavours and ready for serialization, because some error instance properties are not enumerable and cannot be magically serialized 
  * to plain javascript Objects
  * to a string
