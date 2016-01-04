@@ -4,13 +4,12 @@ Convert node Errors to several flavours and ready for serialization, because som
  * to a string
   
 Furthermore, some awful libraries do not return errors. `serr` makes a best effort to serialize their no "errors" as something understandable
- 
-## Install
+
+## Usage
 ```sh
 npm install --save serr
 ```
 
-## Usage
 ```js
 var serializeError = require('serr');
 
@@ -36,6 +35,8 @@ var obj = serializeError(new MyError('Failed')).toObject(true);
 //   constructor: 'MyError',  // <----- Constructor name
 //   stack: 'Error: Failed\n    at MyError (repl:1:23)\n    at repl:1:26\n    at REPLServer.defaultEval (repl.js:248:27)\n...'
 // }
+var str = serializeError(error).toString(true); 
+// 'Error: Failed\n    at MyError (repl:1:23)\n    at repl:1:3\n ....'
 ```
 
 If the error has a `cause()` method that returns another error, as defined by [verror](https://github.com/davepacheco/node-verror), [restify v2.0](https://github.com/mcavage/node-restify) or [therror v1.0](https://github.com/therror/therror), it will concatenate the the cause stacktrace to the main one and add a `causes` array.
@@ -50,10 +51,13 @@ var obj = serializeError(error).toObject(true);
 //   name: 'Error',
 //   constructor: 'Error',
 //   causes: [ { message: 'ID not found', name: 'Error', constructor: 'Error' } ]
-//   stack: 'Error: User Not Found\n    at repl:1:13\n .....\nCaused by: Error: ID not found\n    at Error.error.cause (repl:1:21)\n....' 
+//   stack: 'Error: User Not Found\n    at repl:1:13\n ... \nCaused by: Error: ID not found\n    at Error.error.cause (repl:1:21)\n ...' 
 // }
 var str = serializeError(error).toString(); 
 // 'Error: User Not Found: ID not found'
+
+var str = serializeError(error).toString(true); 
+// 'Error: User Not Found\n    at repl:1:13\n ...Caused by: Error: ID not found\n    at Error.error.cause (repl:1:21)\n ...'
 ```
 
 ## License
