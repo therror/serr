@@ -52,6 +52,20 @@ describe('toObject', function() {
     });
   });
 
+  it('should serialize undefined', function() {
+    var obj = serializeError().toObject();
+    expect(obj).to.be.eql({
+      message: 'undefined'
+    });
+  });
+
+  it('should serialize null', function() {
+    var obj = serializeError(null).toObject();
+    expect(obj).to.be.eql({
+      message: 'null'
+    });
+  });
+
   it('should add stack traces', function() {
     var err = new Error('foo');
     var obj = serializeError(err).toObject(true);
@@ -162,6 +176,23 @@ describe('toObject', function() {
       });
     });
 
+    it('should serialize nested undefined', function() {
+      var err = new Error('foo');
+      err.cause = sandbox.stub().returns(undefined);
+      var obj = serializeError(err).toObject();
+
+      expect(obj).to.be.eql({
+        constructor: 'Error',
+        message: 'foo',
+        name: 'Error',
+        causes: [
+          {
+            message: "undefined"
+          }
+        ]
+      });
+    });
+
     it('should add stack traces', function() {
       var err = new Error('foo'), err1 = new Error('bar'), err2 = 'baz';
       err1.cause = sandbox.stub().returns(err2);
@@ -188,6 +219,32 @@ describe('toObject', function() {
         '\nCaused by: ' + err2
       });
     });
+
+    it('should add stack traces including undefined', function() {
+        var err = new Error('foo'), err1 = new Error('bar'), err2 = undefined;
+        err1.cause = sandbox.stub().returns(err2);
+        err.cause = sandbox.stub().returns(err1);
+        var obj = serializeError(err).toObject(true);
+
+        expect(obj).to.be.eql({
+          constructor: 'Error',
+          message: 'foo',
+          name: 'Error',
+          causes: [
+            {
+              constructor: 'Error',
+              message: 'bar',
+              name: 'Error'
+            },
+            {
+              message: 'undefined'
+            }
+          ],
+          stack: err.stack +
+          '\nCaused by: ' + err1.stack +
+          '\nCaused by: undefined'
+        });
+      });
 
     it('should not add stack traces for non errors', function() {
       var err = 'foo';
