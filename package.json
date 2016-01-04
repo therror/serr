@@ -9,7 +9,7 @@
     "lint": "jscs lib && eslint lib",
     "test": "mocha -R spec test/environment.js test/*.spec.js",
     "changelog": "conventional-changelog -p jshint",
-    "release": "release-it -n --github.release --changelogCommand=\"npm run -s changelog\"",
+    "release": "release-it -n -p --github.release --changelogCommand=\"npm run -s changelog\"",
     "prepublish": "npm run test && npm run lint"
   },
   "repository": {
