@@ -11,6 +11,8 @@ Convert node Errors to several flavours and ready for serialization, because som
   
 Furthermore, some awful libraries do not return errors. `serr` makes a best effort to serialize their no "errors" as something understandable
 
+[*Try `serr` online*](https://tonicdev.com/npm/serr)
+
 ## Usage
 ```sh
 npm install --save serr

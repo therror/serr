@@ -45,5 +45,6 @@
   "dependencies": {
     "lodash.isfunction": "^3.0.6",
     "lodash.isobject": "^3.0.2"
-  }
+  },
+  "tonicExampleFilename": "examples/tonicdev.js"
 }
