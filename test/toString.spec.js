@@ -10,6 +10,18 @@ describe('toString', function() {
     expect(obj).to.be.eql('Error: foo');
   });
 
+  it('should serialize enumerable properties', function() {
+    var err = new Error('foo');
+    err.statusCode = 404;
+    Object.defineProperty(err, 'hidden', {
+      enumerable: false,
+      value: 'nope'
+    });
+    var obj = serializeError(err).toString();
+
+    expect(obj).to.be.eql('Error: foo { statusCode: 404 }');
+  });
+
   it('should serialize Strings as errors', function() {
     var err = 'foo';
     var obj = serializeError(err).toString();
@@ -39,6 +51,18 @@ describe('toString', function() {
     var obj = serializeError(err).toString(true);
 
     expect(obj).to.be.eql(err.stack);
+  });
+
+  it('should add stack traces with aditional properties', function() {
+    var err = new Error('foo');
+    err.statusCode = 404;
+    var obj = serializeError(err).toString(true);
+
+    var stack = err.stack.split('\n');
+    stack.shift();
+    stack = stack.join('\n');
+
+    expect(obj).to.be.eql('Error: foo { statusCode: 404 }\n' + stack);
   });
 
   describe('with cause', function() {
@@ -82,8 +106,20 @@ describe('toString', function() {
       var obj = serializeError(err).toString(true);
 
       expect(obj).to.be.eql(err.stack +
-        '\nCaused by: ' + err1.stack +
-        '\nCaused by: ' + err2
+          '\nCaused by: ' + err1.stack +
+          '\nCaused by: ' + err2
+      );
+    });
+
+    it('should add stack traces', function() {
+      var err = new Error('foo'), err1 = new Error('bar'), err2 = 'baz';
+      err1.cause = sandbox.stub().returns(err2);
+      err.cause = sandbox.stub().returns(err1);
+      var obj = serializeError(err).toString(true);
+
+      expect(obj).to.be.eql(err.stack +
+          '\nCaused by: ' + err1.stack +
+          '\nCaused by: ' + err2
       );
     });
 
