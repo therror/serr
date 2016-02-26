@@ -67,12 +67,12 @@ describe('toString', function() {
       expect(obj).to.be.eql("Error: foo: { foo: 'bar' }");
     });
 
-    it('should serialize nested undefined', function() {
+    it('should not serialize nested undefined', function() {
       var err = new Error('foo');
       err.cause = sandbox.stub().returns(undefined);
       var obj = serializeError(err).toString();
 
-      expect(obj).to.be.eql("Error: foo: undefined");
+      expect(obj).to.be.eql("Error: foo");
     });
 
     it('should add stack traces', function() {
@@ -84,18 +84,6 @@ describe('toString', function() {
       expect(obj).to.be.eql(err.stack +
         '\nCaused by: ' + err1.stack +
         '\nCaused by: ' + err2
-      );
-    });
-
-    it('should add stack traces including undefined', function() {
-      var err = new Error('foo'), err1 = new Error('bar'), err2 = undefined;
-      err1.cause = sandbox.stub().returns(err2);
-      err.cause = sandbox.stub().returns(err1);
-      var obj = serializeError(err).toString(true);
-
-      expect(obj).to.be.eql(err.stack +
-        '\nCaused by: ' + err1.stack +
-        '\nCaused by: undefined'
       );
     });
 

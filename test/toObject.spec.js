@@ -176,7 +176,7 @@ describe('toObject', function() {
       });
     });
 
-    it('should serialize nested undefined', function() {
+    it('should not serialize nested undefined', function() {
       var err = new Error('foo');
       err.cause = sandbox.stub().returns(undefined);
       var obj = serializeError(err).toObject();
@@ -184,12 +184,7 @@ describe('toObject', function() {
       expect(obj).to.be.eql({
         constructor: 'Error',
         message: 'foo',
-        name: 'Error',
-        causes: [
-          {
-            message: "undefined"
-          }
-        ]
+        name: 'Error'
       });
     });
 
@@ -219,32 +214,6 @@ describe('toObject', function() {
         '\nCaused by: ' + err2
       });
     });
-
-    it('should add stack traces including undefined', function() {
-        var err = new Error('foo'), err1 = new Error('bar'), err2 = undefined;
-        err1.cause = sandbox.stub().returns(err2);
-        err.cause = sandbox.stub().returns(err1);
-        var obj = serializeError(err).toObject(true);
-
-        expect(obj).to.be.eql({
-          constructor: 'Error',
-          message: 'foo',
-          name: 'Error',
-          causes: [
-            {
-              constructor: 'Error',
-              message: 'bar',
-              name: 'Error'
-            },
-            {
-              message: 'undefined'
-            }
-          ],
-          stack: err.stack +
-          '\nCaused by: ' + err1.stack +
-          '\nCaused by: undefined'
-        });
-      });
 
     it('should not add stack traces for non errors', function() {
       var err = 'foo';
