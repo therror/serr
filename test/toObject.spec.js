@@ -97,7 +97,7 @@ describe('toObject', function() {
         constructor: 'Error',
         message: 'foo',
         name: 'Error',
-        causes: [
+        $$causes: [
           {
             constructor: 'Error',
             message: 'bar',
@@ -123,7 +123,7 @@ describe('toObject', function() {
         constructor: 'Error',
         message: 'foo',
         name: 'Error',
-        causes: [
+        $$causes: [
           {
             statusCode: 404,
             constructor: 'Error',
@@ -148,7 +148,7 @@ describe('toObject', function() {
         constructor: 'Error',
         message: 'foo',
         name: 'Error',
-        causes: [
+        $$causes: [
           {
             constructor: 'String',
             message: 'bar'
@@ -166,7 +166,7 @@ describe('toObject', function() {
         constructor: 'Error',
         message: 'foo',
         name: 'Error',
-        causes: [
+        $$causes: [
           {
             constructor: 'Object',
             foo: 'bar',
@@ -198,7 +198,7 @@ describe('toObject', function() {
         constructor: 'Error',
         message: 'foo',
         name: 'Error',
-        causes: [
+        $$causes: [
           {
             constructor: 'Error',
             message: 'bar',

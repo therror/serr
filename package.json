@@ -9,8 +9,7 @@
     "lint": "jscs lib && eslint lib",
     "test": "mocha -R spec test/environment.js test/*.spec.js",
     "changelog": "conventional-changelog -p jshint",
-    "release": "release-it -n -p --github.release --changelogCommand=\"npm run -s changelog\"",
-    "prepublish": "npm run test && npm run lint"
+    "release": "release-it -n -p --github.release --changelogCommand=\"npm run -s changelog\""
   },
   "repository": {
     "type": "git",
@@ -43,8 +42,7 @@
     "sinon-chai": "^2.8.0"
   },
   "dependencies": {
-    "lodash.isfunction": "^3.0.6",
-    "lodash.isobject": "^3.0.2"
+    "lodash": "^4.0.0"
   },
   "tonicExampleFilename": "examples/tonicdev.js"
 }
