@@ -1,6 +1,6 @@
 {
   "name": "serr",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Serialize Javascript Errors",
   "main": "lib/index.js",
   "scripts": {
